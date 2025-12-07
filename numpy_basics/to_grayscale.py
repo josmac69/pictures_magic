@@ -27,7 +27,7 @@ def rgb_to_gray(img):
     return gray
 
 def main():
-    image_path = "../pictures/dalle1.webp"  # <-- change this
+    image_path = "../pictures/dalle1.webp"
 
     color_img = load_image(image_path)
     gray_img = rgb_to_gray(color_img)
