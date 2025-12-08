@@ -1,0 +1,234 @@
+/* conference-theme.css */
+/* @theme conference */
+
+/* Extend built-in Gaia theme (could also use 'default' or 'uncover') */
+@import 'gaia';
+
+/* Base slide box */
+section {
+	/* Gaia already defines width/height; we mainly adjust padding and layout */
+	position: relative;
+	padding: 2.6rem 2.6rem 2.0rem;
+	/* leave room for header and footer */
+	box-sizing: border-box;
+}
+
+/* Header & footer shared layout */
+header,
+footer {
+	position: absolute;
+	left: 2.6rem;
+	right: 2.6rem;
+	height: 1.0rem;
+	font-size: 0.55rem;
+	line-height: 1.2;
+	display: flex;
+	align-items: center;
+}
+
+/* Logo header: right-aligned */
+header {
+	top: 0.7rem;
+	justify-content: flex-end;
+}
+
+/* Ensure header logo image is sized nicely */
+header img {
+	max-height: 0.9rem;
+	width: auto;
+	margin-left: auto;
+	/* push to right edge */
+}
+
+/* Footer content: centered author/email/date/conference */
+footer {
+	bottom: 0.7rem;
+	justify-content: center;
+	text-align: center;
+}
+
+/* Reserve space so body content does not collide with header/footer */
+section>*:not(header):not(footer) {
+	margin-top: 0.6rem;
+	margin-bottom: 0.6rem;
+}
+
+/* Default title placement: top-left if slide has an h1 and is not a special layout */
+section:not(.title-slide):not(.section-title):not(.toc):not(.image-bottom) h1:first-of-type {
+	position: absolute;
+	top: 0.7rem;
+	left: 2.6rem;
+	margin: 0;
+	font-size: 1.35rem;
+}
+
+/* Push remaining content down under the title bar */
+section:not(.title-slide):not(.section-title):not(.toc):not(.image-bottom)> :not(header):not(footer):not(h1:first-of-type) {
+	margin-top: 3.0rem;
+}
+
+/* Pagination position (page number) – relies on Gaia's ::after */
+section::after {
+	right: 2.6rem;
+	bottom: 0.3rem;
+	font-size: 0.5rem;
+}
+
+/* ---------- Title slide (everything centered) ---------- */
+
+section.title-slide {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+/* Larger title on title-slide */
+section.title-slide h1 {
+	font-size: 1.8rem;
+	margin-bottom: 0.5rem;
+}
+
+/* Optional subtitle text */
+section.title-slide h2 {
+	font-size: 1.1rem;
+	margin-top: 0;
+}
+
+/* Hide header, footer, pagination on pure title pages */
+section.title-slide header,
+section.title-slide footer {
+	display: none;
+}
+
+section.title-slide::after {
+	content: none;
+}
+
+/* ---------- Section subtitle slide (section name centered) ---------- */
+
+section.section-title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+section.section-title h1 {
+	font-size: 1.7rem;
+	margin: 0;
+}
+
+/* Hide header/footer and pagination to keep it clean */
+section.section-title header,
+section.section-title footer {
+	display: none;
+}
+
+section.section-title::after {
+	content: none;
+}
+
+/* ---------- Table-of-contents slide: left bullets, right image ---------- */
+
+section.toc {
+	display: grid;
+	grid-template-columns: 1.2fr 0.8fr;
+	/* left text / right image */
+	grid-template-rows: auto 1fr;
+	column-gap: 2rem;
+	row-gap: 1rem;
+}
+
+/* TOC title spans full width, normal flow (not absolute) */
+section.toc h1:first-of-type {
+	position: static;
+	grid-column: 1 / -1;
+	margin: 0 0 0.7rem 0;
+}
+
+/* Left column: bullet list of topics */
+section.toc>ul {
+	grid-column: 1;
+	align-self: start;
+	text-align: left;
+}
+
+/* Right column: figure with image + caption */
+section.toc>figure {
+	grid-column: 2;
+	align-self: start;
+	justify-self: center;
+	margin: 0;
+	font-size: 0.6rem;
+	text-align: center;
+}
+
+section.toc>figure img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+/* ---------- Content slide: title + logo + bullets top half, picture bottom half ---------- */
+
+section.image-bottom {
+	display: grid;
+	grid-template-rows: 1fr 1fr;
+	/* top half text, bottom half image */
+	row-gap: 0.7rem;
+}
+
+/* Title stays in normal flow and occupies top half */
+section.image-bottom h1:first-of-type {
+	position: static;
+	grid-row: 1;
+	align-self: start;
+	margin: 0 0 0.3rem 0;
+}
+
+/* Bullets live in the top half under the title */
+section.image-bottom>ul,
+section.image-bottom>ol {
+	grid-row: 1;
+	align-self: end;
+	margin-top: 0.5rem;
+}
+
+/* Bottom-half: last paragraph (with image) fills bottom cell */
+section.image-bottom>p:last-of-type {
+	grid-row: 2;
+	align-self: stretch;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+}
+
+section.image-bottom>p:last-of-type img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+/* In case you use <figure> instead of plain image paragraph */
+section.image-bottom>figure {
+	grid-row: 2;
+	align-self: stretch;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+section.image-bottom>figure img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+/* Ensure special layouts are not affected by default absolute-title rule */
+section.image-bottom h1:first-of-type,
+section.toc h1:first-of-type,
+section.title-slide h1,
+section.section-title h1 {
+	/* Overriding any theme side-effects if present */
+}
